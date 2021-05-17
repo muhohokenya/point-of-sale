@@ -28,7 +28,7 @@ import { mapState, mapActions } from 'vuex'
 import store from './store'
 import SideNav from './layouts/SideNav'
 export default {
-  name: 'to-do-desktop',
+  name: 'Point Of Sale',
   components: {
     SideNav,
     Notifications
