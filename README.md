@@ -1,4 +1,4 @@
-# to-do-desktop
+# Point Of Sale
 
 > An electron-vue project
 
