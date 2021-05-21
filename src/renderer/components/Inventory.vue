@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     fetchItems () {
-      axios.get('http://localhost/pos/public/api/item').then(response => {
+      axios.get('http://psq.covid-19.co.ke/api/item').then(response => {
         this.inventories = response.data
       }).catch(error => {
         this.errors = error.response.data
@@ -124,7 +124,7 @@ export default {
       this.item = item
     },
     createInventory () {
-      axios.post('http://localhost/pos/public/api/inventories', this.form).then(response => {
+      axios.post('http://psq.covid-19.co.ke/api/inventories', this.form).then(response => {
         this.inventories.push(response.data)
       }).catch(error => {
         this.errors = error.response.data

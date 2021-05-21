@@ -1,9 +1,12 @@
+body{
+    background: #f8f9fa !important;
+}
 .wrapper {
     overflow-x: hidden;
 }
 
 #sidebar-wrapper {
-    min-height: 100vh;
+    min-height: 200vh;
     margin-left: -15rem;
 
     -webkit-transition: margin .25s ease-out;

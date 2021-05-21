@@ -28,7 +28,7 @@ import { mapState, mapActions } from 'vuex'
 import store from './store'
 import SideNav from './layouts/SideNav'
 export default {
-  name: 'Point Of Sale',
+  name: 'point-of-sale',
   components: {
     SideNav,
     Notifications
@@ -49,31 +49,31 @@ export default {
       logOutImg: 'static/assets/logout.ico'
     }
   },
-  beforeRouteEnter (to, from, next) {
-    alert('go')
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (localStorage.getItem('access_token') == null) {
-        next({
-          path: '/login',
-          params: {nextUrl: to.fullPath}
-        })
-      } else {
-        let url = 'http://localhost/pos/public/api/auth/me'
-        axios.post(url, '', {
-          headers: {
-            'Authorization': 'Bearer' + localStorage.getItem('access_token')
-          }
-        }).then(response => {
-          // this.loggedIn = true
-          next()
-        }).catch(error => {
-          console.log(error + ' iko hapa')
-        })
-      }
-    } else {
-      alert('no auth')
-    }
-  },
+  // beforeRouteEnter (to, from, next) {
+  //   alert('go')
+  //   if (to.matched.some(record => record.meta.requiresAuth)) {
+  //     if (localStorage.getItem('access_token') == null) {
+  //       next({
+  //         path: '/login',
+  //         params: {nextUrl: to.fullPath}
+  //       })
+  //     } else {
+  //       let url = 'http://psq.covid-19.co.ke/api/auth/me'
+  //       axios.post(url, '', {
+  //         headers: {
+  //           'Authorization': 'Bearer' + localStorage.getItem('access_token')
+  //         }
+  //       }).then(response => {
+  //         // this.loggedIn = true
+  //         next()
+  //       }).catch(error => {
+  //         console.log(error + ' iko hapa')
+  //       })
+  //     }
+  //   } else {
+  //     alert('no auth')
+  //   }
+  // },
   created () {
     console.log('created')
     // this.hasAccess('super admin')
@@ -85,7 +85,7 @@ export default {
       // this.loggedIn = false
       store.dispatch('UNSET_SET_AUTH_USER')
     } else {
-      let url = 'http://localhost/pos/public/api/auth/me'
+      let url = 'http://psq.covid-19.co.ke/api/auth/me'
       axios.post(url, '', {
         headers: {
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
@@ -111,7 +111,7 @@ export default {
       })
     },
     logout () {
-      let url = 'http://localhost/pos/public/api/auth/logout'
+      let url = 'http://psq.covid-19.co.ke/api/auth/logout'
       axios.post(url, '', {
         headers: {
           'Authorization': 'Bearer' + localStorage.getItem('access_token')

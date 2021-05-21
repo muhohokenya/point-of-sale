@@ -19,7 +19,8 @@ Vue.use(Notifications)
 let myMixin = {
   data () {
     return {
-      base_url: 'http://localhost/pos/public/api'
+      base_url: 'http://psq.covid-19.co.ke/api',
+      items: []
     }
   },
   created: function () {
@@ -29,6 +30,11 @@ let myMixin = {
     hello: function () {
       // console.log('hello from mixin!')
     },
+    fetchItems () {
+      return axios.get(this.base_url + '/get-items').then(response => {
+        return response.data
+      })
+    },
     currency (amount) {
       let formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -36,6 +42,21 @@ let myMixin = {
       })
 
       return formatter.format(amount)
+    },
+    logout () {
+      let url = this.base_url + '/auth/logout'
+      axios.post(url, '', {
+        headers: {
+          'Authorization': 'Bearer' + localStorage.getItem('access_token')
+        }
+      }).then(response => {
+        store.dispatch('UNSET_SET_AUTH_USER')
+        this.$router.push({path: '/login'})
+        localStorage.removeItem('access_token')
+        // eslint-disable-next-line handle-callback-err
+      }).catch(error => {
+        // console.log(error)
+      })
     }
   }
 }

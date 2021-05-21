@@ -86,7 +86,7 @@ export default {
   //         params: {nextUrl: to.fullPath}
   //       })
   //     } else {
-  //       let url = 'http://localhost/pos/public/api/auth/me'
+  //       let url = 'http://psq.covid-19.co.ke/api/auth/me'
   //       axios.post(url, '', {
   //         headers: {
   //           'Authorization': 'Bearer' + localStorage.getItem('access_token')
@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     fetchAll () {
-      axios.get('http://localhost/pos/public/api/category').then(response => {
+      axios.get('http://psq.covid-19.co.ke/api/category').then(response => {
         this.categories = response.data
       }).catch()
     },
@@ -142,7 +142,7 @@ export default {
       })
         .then((willDelete) => {
           if (willDelete) {
-            axios.delete('http://localhost/pos/public/api/category/' + category.id).then(response => {
+            axios.delete('http://psq.covid-19.co.ke/api/category/' + category.id).then(response => {
               this.categories = this.categories.filter(function (cat) {
                 return cat.id !== category.id
               })
@@ -158,7 +158,7 @@ export default {
     addCategory () {
       let formData = new FormData()
       formData.append('name', this.form.name)
-      axios.post('http://localhost/pos/public/api/category', formData)
+      axios.post('http://psq.covid-19.co.ke/api/category', formData)
         .then(response => {
           this.categories.push(response.data)
           this.form.name = ''
@@ -173,7 +173,7 @@ export default {
     updateCategory () {
       let formData = new FormData()
       formData.append('name', this.form.name)
-      axios.put('http://localhost/pos/public/api/category/' + this.form.id, this.form)
+      axios.put('http://psq.covid-19.co.ke/api/category/' + this.form.id, this.form)
         .then(response => {
           this.resetCategory()
           this.fetchAll()

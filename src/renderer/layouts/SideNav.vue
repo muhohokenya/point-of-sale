@@ -31,7 +31,7 @@
 
           <router-link v-if="super_admin" class="list-group-item list-group-item-action bg-light" to="/sales">
             <img :src="reportsImg" alt="">
-            Sales Reports
+            Reports
           </router-link>
 
           <button @click.prevent="logout" class="list-group-item list-group-item-action bg-light fixed-bottom" style="width: 17rem;">
@@ -83,7 +83,7 @@ export default {
           params: {nextUrl: to.fullPath}
         })
       } else {
-        let url = 'http://localhost/pos/public/api/auth/me'
+        let url = 'http://psq.covid-19.co.ke/api/auth/me'
         axios.post(url, '', {
           headers: {
             'Authorization': 'Bearer' + localStorage.getItem('access_token')
@@ -111,7 +111,7 @@ export default {
       })
     },
     logout () {
-      let url = 'http://localhost/pos/public/api/auth/logout'
+      let url = 'http://psq.covid-19.co.ke/api/auth/logout'
       axios.post(url, '', {
         headers: {
           'Authorization': 'Bearer' + localStorage.getItem('access_token')

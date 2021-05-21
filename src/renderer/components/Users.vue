@@ -3,7 +3,7 @@
     <div class="py-5">
       <div class="row">
         <div class="col">
-          <table class="table">
+          <table class="table table-bordered">
             <tr>
               <th>#</th>
               <th>Name</th>
@@ -12,16 +12,18 @@
               <th>Edit</th>
               <th>Delete</th>
             </tr>
-            <tr v-for="(user,index) in users">
+            <tr v-for="(appUser,index) in users">
               <td>{{index+=1}}</td>
-              <td>{{ user.name}}</td>
-              <td>{{ user.email}}</td>
-              <td>{{ user.roles[0].name}}</td>
+              <td>{{ appUser.name.toUpperCase()}}</td>
+              <td>{{ appUser.email}}</td>
+              <td>{{ appUser.roles[0].name}}</td>
               <td>
                 <button class="btn btn-outline-info">Edit</button>
               </td>
               <td>
-                <button class="btn btn-outline-danger">Delete</button>
+
+                <button v-if="appUser.roles[0].name !== 'super admin'" @click="deleteUser(appUser)" class="btn btn-outline-danger">Delete</button>
+                <button v-else disabled class="btn btn-outline-danger">Delete</button>
               </td>
             </tr>
           </table>
@@ -52,7 +54,6 @@
                 <input :class="{'is-invalid':errors.password}" v-model="form.password" id="password" type="text" class="form-control form-control-lg" placeholder="Password">
                 <div class="text-danger" v-if="errors.password">{{ errors.password[0]}}</div>
               </div>
-              
               <div class="form-group">
                 <label for="role">Roles</label>
                 <select :class="{'is-invalid':errors.role}" v-model="form.role" name="role" id="role" class="form-control form-control-lg">
@@ -60,7 +61,6 @@
                 </select>
                 <div class="text-danger" v-if="errors.role">{{ errors.role[0]}}</div>
               </div>
-
               <button @click="createUser" class="btn btn-lg btn-outline-primary">Create</button>
             </div>
           </div>
@@ -73,10 +73,13 @@
 <script>
 import axios from 'axios'
 import swal from 'sweetalert'
+import {mapState} from 'vuex'
 export default {
   name: 'Users',
+  computed: mapState(['user']),
   data () {
     return {
+      super_admin: false,
       roles: [],
       users: [],
       errors: '',
@@ -91,8 +94,34 @@ export default {
   mounted () {
     this.fetchRoles()
     this.fetchUsers()
+    this.hasAccess('super admin')
   },
   methods: {
+    hasAccess (role) {
+      this.user.authUser.roles.forEach(userRole => {
+        console.log(userRole)
+        this.super_admin = role === userRole.name
+      })
+    },
+    deleteUser (user) {
+      swal({
+        title: 'Are you sure you want to delete ' + user.name + '?',
+        text: 'Once deleted, you will not be able to recover!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+            axios.delete(this.base_url + '/delete-user/' + user.id).then(response => {
+              this.fetchUsers()
+              swal('Success! User has been deleted!', {
+                icon: 'success'
+              })
+            })
+          }
+        })
+    },
     fetchRoles () {
       axios.get(this.base_url + '/roles').then(response => {
         this.roles = response.data
@@ -104,7 +133,7 @@ export default {
       })
     },
     createUser () {
-      axios.post('http://localhost/pos/public/api/create-user', this.form).then(response => {
+      axios.post('http://psq.covid-19.co.ke/api/create-user', this.form).then(response => {
         swal('Success! Sale has Been Successfully made!', {
           icon: 'success'
         })

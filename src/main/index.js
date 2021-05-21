@@ -1,8 +1,9 @@
 'use strict'
-
 import {app, globalShortcut, BrowserWindow, Menu} from 'electron'
-// const {shell} = require('electron')
-// import './store'
+// const { autoUpdater } = require('electron-updater')
+// if (require('electron-squirrel-startup')) app.quit()
+// const electronInstaller = require('electron-winstaller')
+// const { autoUpdater } = require('electron-updater')
 
 /**
  * Set `__static` path to static files in production
@@ -32,7 +33,7 @@ function createWindow () {
   })
 
   mainWindow.maximize()
-  mainWindow.setResizable(false)
+  mainWindow.setResizable(true)
   // mainWindow.setFullScreen(true)
 
   mainWindow.loadURL(winURL)
@@ -45,21 +46,11 @@ function createWindow () {
 
   // shell.beep()
 }
-
+// mainWindow.once('ready-to-show', () => {
+//   autoUpdater.checkForUpdatesAndNotify()
+// })
 app.on('ready', () => {
   createWindow()
-  // eslint-disable-next-line no-unused-vars
-  const template = [
-    {
-      label: 'System',
-      submenu: [
-        {label: 'Log out',
-          click: function () {
-            console.log('click')
-          }}
-      ]
-    }
-  ]
 
   // const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(null)

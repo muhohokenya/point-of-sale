@@ -13,8 +13,8 @@
                 <th>Selling</th>
                 <th>Qty</th>
                 <th>Category</th>
-                <th>Stock Level</th>
-                <th colspan="2">Action</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
               <tr v-for="(item,index) in items">
                 <td>{{ index += 1 }}</td>
@@ -40,7 +40,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-5 vh-100 bg-white">
+      <div class="col-md-5">
         <div class="row mt-5 " style="position: fixed;top:3rem;width: 35%;">
           <div class="col">
             <div v-if="editMode" class="card shadow">
@@ -203,7 +203,7 @@ export default {
           params: {nextUrl: to.fullPath}
         })
       } else {
-        let url = 'http://localhost/pos/public/api/auth/me'
+        let url = 'http://psq.covid-19.co.ke/api/auth/me'
         axios.post(url, '', {
           headers: {
             'Authorization': 'Bearer' + localStorage.getItem('access_token')
@@ -255,19 +255,19 @@ export default {
       this.item = item
     },
     fetchItems () {
-      axios.get('http://localhost/pos/public/api/item').then(response => {
+      axios.get('http://psq.covid-19.co.ke/api/item').then(response => {
         this.items = response.data
       }).catch()
     },
     fetchCategories () {
-      axios.get('http://localhost/pos/public/api/category').then(response => {
+      axios.get('http://psq.covid-19.co.ke/api/category').then(response => {
         this.categories = response.data
       }).catch()
     },
     deleteItem (item) {
       // this.deleteMode = true
       // eslint-disable-next-line handle-callback-err
-      axios.delete('http://localhost/pos/public/api/item/' + item.id).then(response => {
+      axios.delete('http://psq.covid-19.co.ke/api/item/' + item.id).then(response => {
         this.items.splice(item, 1)
       }).catch(error => {
         this.errors = error.response.data
@@ -297,7 +297,7 @@ export default {
       this.errors = ''
     },
     createItem () {
-      axios.post('http://localhost/pos/public/api/item', this.form).then(response => {
+      axios.post('http://psq.covid-19.co.ke/api/item', this.form).then(response => {
         this.items.push(response.data)
         // this.items = response.data
         this.clearForm()
@@ -319,7 +319,7 @@ export default {
       })
     },
     updateItem () {
-      axios.put('http://localhost/pos/public/api/item/' + this.form.id, this.form).then(response => {
+      axios.put('http://psq.covid-19.co.ke/api/item/' + this.form.id, this.form).then(response => {
         this.clearForm()
         this.fetchItems()
         swal('Success! Item has Been Successfully Updated!', {

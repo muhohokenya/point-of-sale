@@ -10,7 +10,7 @@
                      leave-active-class="animate__animated animate__fadeOutRight">
         <div v-if="user.loggedIn===false" class="card shadow-lg" style="margin-top:40%;">
           <div class="card-header">
-            <p class="card-title">Login To Dions P.O.S</p>
+            <p class="card-title">Login</p>
           </div>
           <div class="card-body">
 
@@ -21,7 +21,7 @@
             </div>
             <section class="form-group">
               <label for="username">Email</label>
-              <input :class="{'is-invalid':errors.email}" v-model="form.email" type="text" class="form-control form-control-lg"
+              <input placeholder="Enter your Email" :class="{'is-invalid':errors.email}" v-model="form.email" type="text" class="form-control form-control-lg"
                      id="username">
               <span v-if="errors.email" :class="{'text-danger':errors.email}">
                 {{ errors.email[0] }}
@@ -30,7 +30,7 @@
 
             <section class="form-group">
               <label for="password">Password</label>
-              <input  v-model="form.password" type="password"
+              <input placeholder="Enter your password"  v-model="form.password" type="password"
                      class="form-control  form-control-lg" id="password" :class="{'is-invalid':errors.password}">
               <span v-if="errors.password" :class="{'text-danger':errors.password}">
                 {{ errors.password[0] }}
@@ -43,8 +43,8 @@
               Loading...
             </button>
             <button v-else @click="login" class="btn btn-outline-secondary ">
-              <img :src="logOutImg" alt="">
-              Login</button>
+              Login<img style="height: 30px" :src="logOutImg" alt="">
+              </button>
           </div>
         </div>
         </transition>
@@ -72,8 +72,8 @@ export default {
       errors: '',
       reservations: '',
       form: {
-        email: 'admin@gmail.com',
-        password: 'password'
+        email: '',
+        password: ''
       }
     }
   },
@@ -84,7 +84,7 @@ export default {
   methods: {
     ...mapActions(['SET_AUTH_USER']),
     getUser () {
-      let url = 'http://localhost/pos/public/api/auth/me'
+      let url = 'http://psq.covid-19.co.ke/api/auth/me'
       axios.post(url, '', {
         headers: {
           'Authorization': 'Bearer' + localStorage.getItem('access_token')
@@ -99,7 +99,7 @@ export default {
     },
     login () {
       this.signing_in = true
-      let url = 'http://localhost/pos/public/api/auth/login'
+      let url = 'http://psq.covid-19.co.ke/api/auth/login'
       axios.post(url, this.form).then(response => {
         this.signing_in = false
         localStorage.setItem('access_token', response.data.access_token)

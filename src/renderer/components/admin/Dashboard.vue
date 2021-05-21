@@ -3,6 +3,8 @@
     <div class="row ">
       <div class="col-md-6 mt-5 pr-2">
 
+<!--        <button @click="logout">{{ user }}</button>-->
+
         <div class="row">
           <div class="col">
             <label for="search"></label>
@@ -20,7 +22,7 @@
                 <span class="sr-only">Loading...</span>
               </div>
             </div>
-            <table v-else class="table table-sm">
+            <table v-else class="table table-hover">
               <tr>
                 <th>#</th>
                 <th>Name</th>
@@ -44,7 +46,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6  vh-100 bg-white">
+      <div class="col-md-6">
         <div v-if="cart.length" style="position: fixed;top:2rem;">
           <div class="card">
             <div class="card-header">
@@ -54,17 +56,13 @@
               <p class="lead text-muted">
                 When You Add an Item from the &leftarrow; left side, It gets added to the current Order
               </p>
-              <div class="form-group">
-                <label for="amount_tendered">Amount</label>
-                <input :class="{'is-invalid':errors.amount_tendered}" type="text" class="form-control form-control-lg" v-model="amount_tendered" id="amount_tendered">
-                <div class="text-danger" v-if="errors.amount_tendered">{{ errors.amount_tendered[0]}}</div>
-              </div>
+
 
               <!--<div class="form-group">
                 <label for="quantity">Quantity</label>
                 <input id="quantity" type="text" class="form-control form-control-lg" v-bind="cart.qty">
               </div>-->
-              <table class="table table-sm">
+              <table class="table table-hover">
                 <tr>
                   <td>#</td>
                   <td>Item</td>
@@ -103,13 +101,18 @@
                 </tr>
 
               </table>
+
+              <div class="form-group">
+                <label for="amount_tendered">Amount</label>
+                <input :class="{'is-invalid':errors.amount_tendered}" type="text" class="form-control form-control-lg" v-model="amount_tendered" id="amount_tendered">
+                <div class="text-danger" v-if="errors.amount_tendered">{{ errors.amount_tendered[0]}}</div>
+              </div>
             </div>
             <div class="card-footer">
-              <button @click="checkOutItems" class="btn  btn-block btn-outline-success">CheckOut</button>
+              <button @click="checkOutItems" class="btn btn-lg btn-block btn-outline-success">Complete</button>
             </div>
           </div>
         </div>
-
       </div>
 
 
@@ -120,6 +123,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker'
+import {mapState} from 'vuex'
 import axios from 'axios'
 import swal from 'sweetalert'
 const {PosPrinter} = require('electron').remote.require('electron-pos-printer')
@@ -131,6 +135,7 @@ export default {
   },
   data () {
     return {
+      base_url: '',
       search: '',
       cartIcon: 'static/assets/cart.ico',
       loading: false,
@@ -154,7 +159,6 @@ export default {
       }
     }
   },
-
   beforeRouteEnter (to, from, next) {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       if (localStorage.getItem('access_token') == null) {
@@ -163,7 +167,7 @@ export default {
           params: {nextUrl: to.fullPath}
         })
       } else {
-        let url = 'http://localhost/pos/public/api/auth/me'
+        let url = 'http://psq.covid-19.co.ke/api/auth/me'
         axios.post(url, '', {
           headers: {
             'Authorization': 'Bearer' + localStorage.getItem('access_token')
@@ -178,7 +182,6 @@ export default {
       alert('no auth')
     }
   },
-
   watch: {
     // whenever quantity changes, this function will run
     quantity: function () {
@@ -186,6 +189,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['user']),
     filteredItems () {
       return this.items.filter(item => {
         return item.name.toUpperCase().match(this.search.toUpperCase())
@@ -209,6 +213,9 @@ export default {
     }
   },
   methods: {
+    logout () {
+      this.logout()
+    },
     calculateQty (item) {
       let key = parseInt(event.key)
       // alert(key)
@@ -314,7 +321,7 @@ export default {
         amount_tendered: this.amount_tendered
       }
 
-      axios.post('http://localhost/pos/public/api/checkout', payload).then(response => {
+      axios.post('http://psq.covid-19.co.ke/api/checkout', payload).then(response => {
         console.log(response.data)
         this.order_items = []
         this.cart = []
@@ -382,7 +389,7 @@ export default {
     fetchItems () {
       this.loading = true
       this.token = localStorage.getItem('access_token')
-      axios.get(this.base_url + '/get-items-to-sell').then(response => {
+      axios.get('http://psq.covid-19.co.ke/api/get-items-to-sell').then(response => {
         this.items = response.data
         this.loading = false
         // eslint-disable-next-line handle-callback-err
