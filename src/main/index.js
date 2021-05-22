@@ -9,7 +9,7 @@ import {app, globalShortcut, BrowserWindow, Menu} from 'electron'
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-import { autoUpdater } from 'electron-updater'
+// import { autoUpdater } from 'electron-updater'
 // if (require('electron-squirrel-startup')) app.quit()
 // const electronInstaller = require('electron-winstaller')
 // autoUpdater.logger = require('electron-log')
@@ -119,13 +119,13 @@ app.on('browser-window-blur', function () {
   globalShortcut.unregister('F5')
 })
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
-// node env
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
-autoUpdater.on('checking-for-update', () => {
-  console.log('checking for updates')
-})
+// autoUpdater.on('update-downloaded', () => {
+//   autoUpdater.quitAndInstall()
+// })
+// // node env
+// app.on('ready', () => {
+//   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+// })
+// autoUpdater.on('checking-for-update', () => {
+//   console.log('checking for updates')
+// })
