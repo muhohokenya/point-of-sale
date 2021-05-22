@@ -5,7 +5,6 @@
   "description": "An electron-vue project",
   "license": "MIT",
   "main": "./dist/electron/main.js",
-  "GITHUB_TOKEN": "",
   "repository": {
     "type": "git",
     "url": "https://github.com/muhohokenya/point-of-sale.git"
@@ -125,7 +124,7 @@
     "del": "^3.0.0",
     "devtron": "^1.4.0",
     "electron": "^2.0.18",
-    "electron-builder": "^22.10.5",
+    "electron-builder": "^22.10.4",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-winstaller": "^5.0.0",
