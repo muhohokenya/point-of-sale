@@ -60,8 +60,6 @@ let myMixin = {
     }
   }
 }
-const { autoUpdater } = require('electron-updater')
-autoUpdater.checkForUpdatesAndNotify()
 Vue.mixin(myMixin)
 /* eslint-disable no-new */
 new Vue({

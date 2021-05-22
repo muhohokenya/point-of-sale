@@ -42,7 +42,7 @@ function createWindow () {
     useContentSize: true,
     width: 2000,
     webPreferences: {
-      devTools: false
+      devTools: true
     }
   })
 
