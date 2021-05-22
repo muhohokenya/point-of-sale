@@ -19,6 +19,7 @@ require('electron').app.on('ready', () => {
       console.log('Unable to install `vue-devtools`: \n', err)
     })
 })
+// const { autoUpdater } = require('electron-updater')
 
 // Require `main` process to boot app
 require('./index')
