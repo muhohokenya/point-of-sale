@@ -122,7 +122,7 @@ app.on('browser-window-blur', function () {
 autoUpdater.on('update-downloaded', () => {
   autoUpdater.quitAndInstall()
 })
-
+// node env
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
