@@ -183,7 +183,6 @@ export default {
     }
   },
   watch: {
-    // whenever quantity changes, this function will run
     quantity: function () {
       this.payable = this.item.selling_price * this.quantity
     }
